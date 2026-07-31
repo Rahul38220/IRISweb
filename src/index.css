@@ -1,0 +1,390 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ── Design tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #0c0c14;
+  --surface:     #13131e;
+  --card-outer:  #1e1e2c;
+  --card-inner:  #12121c;
+  --accent:      #5468d4;
+  --accent-2:    #3a9e88;
+  --accent-3:    #8b63c0;
+  --success:     #3aaa80;
+  --warn:        #c8943a;
+  --danger:      #c65454;
+  --text:        #dde1f0;
+  --text-2:      #757898;
+  --border:      rgba(255,255,255,0.06);
+}
+
+/* ── Notification card ─────────────────────────────────────────────────────── */
+.noti-card {
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  position: relative;
+  width: 100%;
+  background: var(--card-outer);
+  border-radius: 1rem;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  --gradient: linear-gradient(to bottom, var(--accent), var(--accent-3), var(--accent-2));
+  --color:    var(--accent);
+}
+.noti-card::before {
+  position: absolute;
+  content: "";
+  inset: 0.07rem;
+  border-radius: 0.93rem;
+  background: var(--card-inner);
+  z-index: 2;
+}
+.noti-card::after {
+  position: absolute;
+  content: "";
+  width: 0.25rem;
+  inset: 0.6rem auto 0.6rem 0.42rem;
+  border-radius: 0.125rem;
+  background: var(--gradient);
+  transition: transform 300ms ease;
+  z-index: 4;
+}
+.noti-card:hover::after { transform: translateX(0.15rem); }
+
+.noti-title {
+  color: var(--color);
+  padding: 0.7rem 0.5rem 0.35rem 1.2rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 300ms ease;
+  z-index: 5;
+  position: relative;
+}
+.noti-card:hover .noti-title { transform: translateX(0.15rem); }
+
+.noti-body {
+  color: var(--text-2);
+  padding: 0 1.2rem 1rem;
+  transition: transform 300ms ease;
+  z-index: 5;
+  position: relative;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+.noti-card:hover .noti-body { transform: translateX(0.22rem); }
+
+.noti-content {
+  position: relative;
+  z-index: 5;
+  padding: 1rem 1.2rem 1.2rem 1.4rem;
+}
+
+.noti-glow, .noti-border-glow {
+  position: absolute;
+  width: 22rem;
+  height: 22rem;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle closest-side at center, white, transparent);
+  opacity: 0;
+  transition: opacity 280ms ease;
+  pointer-events: none;
+}
+.noti-glow         { z-index: 3; }
+.noti-border-glow  { z-index: 1; }
+.noti-card:hover .noti-glow        { opacity: 0.06; }
+.noti-card:hover .noti-border-glow { opacity: 0.06; }
+
+/* ── IRIS logo button ──────────────────────────────────────────────────────── */
+.iris-logo-wrap {
+  --width: 130px;
+  --height: 40px;
+  --padding: 4px;
+  --br: 24px;
+  --dot: 10px;
+  --hue: 240deg;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--width);
+  height: var(--height);
+  border-radius: var(--br);
+  border: none;
+  background: transparent;
+  box-shadow:
+    1px 1px 3px 0 rgba(255,255,255,0.06),
+    2px 2px 4px rgba(0,0,0,0.3) inset,
+    2px 2px 8px rgba(0,0,0,0.2) inset;
+  transition: box-shadow 80ms linear;
+  cursor: pointer;
+  perspective: 120px;
+  user-select: none;
+  z-index: 1;
+}
+.iris-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  padding: 0 calc(var(--height) + 6px) 0 calc(var(--padding) * 3.5);
+  width: calc(100% - 2 * var(--padding));
+  height: calc(100% - 2 * var(--padding));
+  border-radius: calc(var(--br) - var(--padding));
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(rgba(255,255,255,0.06), rgba(0,0,0,0.04)), #181820;
+  box-shadow:
+    1px 1px 2px -1px rgba(255,255,255,0.12) inset,
+    0 2px 2px rgba(0,0,0,0.25),
+    0 8px 6px rgba(0,0,0,0.15),
+    0 16px 8px rgba(0,0,0,0.1);
+  transition:
+    transform 0.25s cubic-bezier(0.25, 1.5, 0.5, 2.2),
+    box-shadow 0.25s cubic-bezier(0.25, 1.5, 0.5, 1),
+    filter 0.3s ease;
+  z-index: 2;
+}
+.iris-btn-txt {
+  font-size: 13px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.6);
+  background-image: linear-gradient(rgba(255,255,255,0.9), rgba(0,0,0,0.5));
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.35)) drop-shadow(0 -1px 0 rgba(0,0,0,0.4));
+}
+.iris-dot {
+  position: absolute;
+  top: calc(50% - var(--dot) / 2);
+  right: calc(var(--height) / 2 - var(--padding));
+  width: var(--dot);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: hsla(var(--hue), 0%, 50%, 0.1);
+  border: 1px solid hsla(var(--hue), 0%, 60%, 0.5);
+  box-shadow: 1px 1px 2px -1px rgba(255,255,255,0.6) inset;
+  pointer-events: none;
+  z-index: 3;
+  transition: background 0.25s;
+}
+.iris-dot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow:
+    0 0 8px 2px hsla(var(--hue), 80%, 60%, 0),
+    0 0 20px 8px hsla(var(--hue), 80%, 60%, 0),
+    0 0 12px 1px hsla(var(--hue), 100%, 70%, 0) inset;
+  opacity: 0;
+  transition: opacity 0.3s, box-shadow 0.3s;
+}
+
+.iris-logo-wrap:hover .iris-btn {
+  filter: drop-shadow(2px 0 3px hsla(var(--hue), 70%, 65%, 0.5));
+  transform: translate3d(0, 0, 3px);
+}
+.iris-logo-wrap:hover .iris-btn-txt {
+  color: hsl(var(--hue), 80%, 78%);
+  background-image: none;
+}
+.iris-logo-wrap:hover .iris-dot {
+  background: hsla(var(--hue), 100%, 60%, 1);
+}
+.iris-logo-wrap:hover .iris-dot::after {
+  opacity: 1;
+  box-shadow:
+    0 0 8px 2px hsla(var(--hue), 80%, 60%, 0.4),
+    0 0 20px 8px hsla(var(--hue), 80%, 60%, 0.5),
+    0 0 12px 1px hsla(var(--hue), 100%, 70%, 0.9) inset;
+}
+
+/* ── Bottom dock nav ───────────────────────────────────────────────────────── */
+.iris-nav-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 680px;
+  backdrop-filter: blur(14px) saturate(180%) contrast(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%) contrast(180%);
+  background: rgba(28, 28, 40, 0.72);
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  padding: 6px;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  z-index: 50;
+}
+.iris-nav-dock::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+.iris-nav-dock a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  color: rgba(139, 139, 168, 0.85);
+  text-decoration: none;
+  padding: 9px 6px 7px;
+  border-radius: 9999px;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.iris-nav-dock a:hover {
+  background: rgba(99, 102, 241, 0.14);
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.12),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.06);
+  color: rgba(99, 102, 241, 0.95);
+  transform: translateY(-1px);
+}
+.iris-nav-dock a svg { width: 1.25rem; height: 1.25rem; }
+.iris-nav-dock a span {
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+.iris-nav-dock a.active {
+  background: rgba(99, 102, 241, 0.18);
+  color: rgba(99, 102, 241, 1);
+  box-shadow:
+    inset 2px 2px 5px -2px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 0 12px rgba(99, 102, 241, 0.2);
+}
+.iris-nav-dock a:active { transform: scale(0.96) translateY(0); }
+
+/* ── Top nav bar (minimal) ─────────────────────────────────────────────────── */
+.iris-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  transition: background 0.4s, border-color 0.4s;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(9, 9, 14, 0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.iris-topbar.scrolled {
+  background: rgba(9, 9, 14, 0.88);
+  border-bottom-color: rgba(99, 102, 241, 0.16);
+}
+
+/* ── Scroll reveal ─────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+
+/* ── Noise overlay ─────────────────────────────────────────────────────────── */
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* ── Scan line ─────────────────────────────────────────────────────────────── */
+@keyframes scan {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 0.3; }
+  95%  { opacity: 0.3; }
+  100% { top: 100%; opacity: 0; }
+}
+.scan-line {
+  position: absolute;
+  left: 0; right: 0; height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(52,211,153,0.45), transparent);
+  box-shadow: 0 0 10px rgba(52,211,153,0.25);
+  animation: scan 5.5s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+/* ── Badge glow ────────────────────────────────────────────────────────────── */
+@keyframes badge-glow {
+  0%,100% { box-shadow: 0 0 6px rgba(99,102,241,0.25); }
+  50%     { box-shadow: 0 0 14px rgba(99,102,241,0.55); }
+}
+.badge-pulse { animation: badge-glow 2.5s ease-in-out infinite; }
+
+/* ── Stat pill border pulse ────────────────────────────────────────────────── */
+@keyframes border-pulse {
+  0%,100% { border-color: rgba(255,255,255,0.08); box-shadow: none; }
+  50%     { border-color: rgba(99,102,241,0.3); box-shadow: 0 0 12px rgba(99,102,241,0.12); }
+}
+.badge-pulse-border { animation: border-pulse 3s ease-in-out infinite; }
+
+/* ── Flow line ─────────────────────────────────────────────────────────────── */
+.flow-line {
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.45), rgba(45,212,191,0.45), transparent);
+}
+
+/* ── Face scan overlay ─────────────────────────────────────────────────────── */
+@keyframes face-sweep {
+  0%   { top: 0%; }
+  100% { top: 100%; }
+}
+.face-scan-sweep { animation: face-sweep 1.2s linear infinite; }
+
+/* ── Konami toast ──────────────────────────────────────────────────────────── */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.konami-toast { animation: toast-in 0.35s ease-out forwards; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+html::-webkit-scrollbar { display: none; }
+
+/* ── Page padding for bottom dock ──────────────────────────────────────────── */
+.page-root { padding-bottom: 96px; }
+
+/* ── Responsive nav dock labels ────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .iris-nav-dock a span { display: none; }
+  .iris-nav-dock a { padding: 10px 6px; }
+  .iris-nav-dock { max-width: calc(100% - 24px); bottom: 10px; }
+}

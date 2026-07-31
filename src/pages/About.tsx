@@ -1,0 +1,287 @@
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
+import { useScrollReveal, GlassCard, SectionLabel, SectionHeading, CTAButton, Pill } from '../components/shared'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+
+function CameraHUD() {
+  const [blink, setBlink] = useState(true)
+  const [time, setTime] = useState(() => new Date().toLocaleTimeString('en-GB', { hour12: false }))
+  useEffect(() => {
+    const t1 = setInterval(() => setBlink(v => !v), 1300)
+    const t2 = setInterval(() => setTime(new Date().toLocaleTimeString('en-GB', { hour12: false })), 1000)
+    return () => { clearInterval(t1); clearInterval(t2) }
+  }, [])
+  const mono: React.CSSProperties = { fontFamily: 'JetBrains Mono,monospace' }
+  return (
+    <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.09)', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(20px)' }}>
+      <div style={{ padding: '8px 14px', background: 'rgba(0,0,0,0.5)', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', ...mono, fontSize: 10 }}>
+        <span style={{ color: 'var(--danger)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--danger)', display: 'inline-block', animation: 'pulse 1.2s infinite' }} /> LIVE</span>
+        <span style={{ color: 'var(--text-2)' }}>CAM_01 · 1080p · 30fps</span>
+        <span style={{ color: 'var(--success)' }}>● SYS ARMED</span>
+      </div>
+      <div style={{ position: 'relative', aspectRatio: '16/9', background: 'linear-gradient(135deg,#070e1e,#050a14)', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.06, backgroundImage: 'linear-gradient(rgba(99,102,241,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.8) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+        {/* HUD top */}
+        <div style={{ position: 'absolute', top: 10, left: 12, right: 12, display: 'flex', justifyContent: 'space-between', ...mono, fontSize: 9, color: 'rgba(45,212,191,0.6)' }}>
+          <span>IRIS-CAM · ACTIVE</span><span>POSE: TRACKING · 33pts</span><span>{time}</span>
+        </div>
+        {/* Face box 1 */}
+        <div style={{ position: 'absolute', top: '22%', left: '20%', width: '25%', height: '46%' }}>
+          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(52,211,153,0.55)', borderRadius: 2 }} />
+          {[[0,0],[0,'auto'],['auto',0],['auto','auto']].map(([t,r],i) => (
+            <div key={i} style={{ position:'absolute', top:typeof t==='number'?-1:undefined, bottom:typeof t==='string'?-1:undefined, right:typeof r==='number'?-1:undefined, left:typeof r==='string'?-1:undefined, width:9,height:9, borderTop:i<2?'2px solid var(--success)':undefined, borderBottom:i>=2?'2px solid var(--success)':undefined, borderLeft:i%2===0?'2px solid var(--success)':undefined, borderRight:i%2===1?'2px solid var(--success)':undefined }} />
+          ))}
+          <div style={{ position: 'absolute', bottom: -18, left: 0, right: 0, textAlign: 'center' }}>
+            <span style={{ fontSize: 9, ...mono, color: 'var(--success)', background: 'rgba(0,0,0,0.75)', padding: '1px 5px', borderRadius: 3 }}>Pratham · 94.2%</span>
+          </div>
+        </div>
+        {/* Face box 2 */}
+        <div style={{ position: 'absolute', top: '20%', left: '56%', width: '22%', height: '40%' }}>
+          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(45,212,191,0.55)', borderRadius: 2 }} />
+          <div style={{ position: 'absolute', bottom: -18, left: 0, right: 0, textAlign: 'center' }}>
+            <span style={{ fontSize: 9, ...mono, color: 'var(--accent-2)', background: 'rgba(0,0,0,0.75)', padding: '1px 5px', borderRadius: 3 }}>Hariom · 91.8%</span>
+          </div>
+        </div>
+        {/* Alert */}
+        <div style={{ position: 'absolute', bottom: 10, left: 10, right: 10, display: 'flex', alignItems: 'center', gap: 7, background: 'rgba(248,113,113,0.14)', border: '1px solid rgba(248,113,113,0.32)', borderRadius: 6, padding: '7px 10px', transition: 'opacity 0.4s', opacity: blink ? 1 : 0.15 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--danger)', display: 'inline-block', animation: 'pulse 0.9s infinite' }} />
+          <span style={{ ...mono, fontSize: 9, color: 'var(--danger)', fontWeight: 600 }}>⚠ ALERT: WEAPON DETECTED — Frame 47 · Confidence 87%</span>
+        </div>
+      </div>
+      <div style={{ padding: '7px 14px', background: 'rgba(0,0,0,0.4)', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', ...mono, fontSize: 9 }}>
+        <span style={{ color: 'var(--text-2)' }}>FACES: 2 | POSE: ACTIVE | WEAPON: SCANNING</span>
+        <span style={{ color: 'var(--success)' }}>✓ ALL SYSTEMS NOMINAL</span>
+      </div>
+    </div>
+  )
+}
+
+const PIPELINES = [
+  {
+    accent: 'var(--accent)',
+    title: 'Face Recognition Pipeline',
+    steps: [
+      { step: '01', label: 'Frame Capture', detail: 'Webcam frame is captured and converted to grayscale for faster processing.' },
+      { step: '02', label: 'CLAHE Enhancement', detail: 'Contrast Limited Adaptive Histogram Equalisation improves image quality in variable lighting.' },
+      { step: '03', label: 'Haar Cascade Detection', detail: 'Pre-trained Haar feature cascade identifies face regions with 2-frame temporal confirmation to avoid single-frame noise.' },
+      { step: '04', label: 'LBPH Recognition', detail: 'Local Binary Pattern Histogram algorithm matches detected face against the training database and outputs a confidence score.' },
+      { step: '05', label: 'Name Overlay', detail: "If confidence exceeds the threshold, the person's name and score are drawn directly onto the live feed." },
+    ],
+  },
+  {
+    accent: 'var(--accent-2)',
+    title: 'Weapon Detection Pipeline',
+    steps: [
+      { step: '01', label: 'HSV Conversion', detail: 'Frame converted from BGR to HSV colour space. Metallic silver-grey hues are masked using a tuned HSV range.' },
+      { step: '02', label: 'Contour Analysis', detail: 'Contours are extracted from the masked region. Shape descriptors — aspect ratio, solidity, extent — are analysed to match blade-like profiles.' },
+      { step: '03', label: 'Ghost Buffer', detail: 'Candidate weapon region is held in a rolling 5-frame ghost buffer. Persistence check prevents alerts on transient reflections.' },
+      { step: '04', label: 'Alert Confirmation', detail: 'After 3 consecutive matching frames, a full weapon alert is raised — on-screen panel, audio beep, and snapshot saved.' },
+    ],
+  },
+  {
+    accent: 'var(--accent-3)',
+    title: 'Violence Detection Pipeline',
+    steps: [
+      { step: '01', label: 'MediaPipe Pose', detail: 'MediaPipe Holistic model extracts 33 3D landmark points — wrists, elbows, shoulders, hips, knees, ankles — every frame.' },
+      { step: '02', label: 'Velocity Vectors', detail: 'Frame-to-frame displacement vectors are computed for key joints (particularly wrists and ankles) to detect rapid movement.' },
+      { step: '03', label: 'Angle Analysis', detail: 'Joint angles are computed between landmark triplets to classify posture: raised arm, bent knee at impact, torso collapse.' },
+      { step: '04', label: 'Action Classification', detail: 'Combination of velocity, angle, and spatial pattern determines action class: punch, kick, choke, or fall.' },
+      { step: '05', label: '3-Frame Confirm', detail: 'Violence is only flagged after 3 consecutive frames match the same action class, preventing false positives from stretches or waves.' },
+    ],
+  },
+]
+
+const TECH_DEEP = [
+  { name: 'LBPH', full: 'Local Binary Pattern Histogram', color: 'var(--accent)',
+    body: 'LBPH works by dividing a face image into small cells, computing a local binary pattern for each pixel (comparing it to its 8 neighbours), and building a histogram of these patterns per cell. These histograms are concatenated into a feature vector. At recognition time, the Chi-squared distance between the query vector and each training vector is computed — the nearest match wins.' },
+  { name: 'Haar Cascade', full: 'Viola–Jones Object Detection', color: 'var(--accent-2)',
+    body: 'The Haar Cascade algorithm uses a cascade of simple rectangular feature classifiers trained via AdaBoost. Each stage of the cascade quickly rejects non-face regions; only candidate regions that pass every stage are declared faces. This makes it extremely fast — suitable for real-time video — while maintaining good accuracy.' },
+  { name: 'MediaPipe Pose', full: 'BlazePose Architecture', color: 'var(--accent-3)',
+    body: 'MediaPipe Pose uses a two-stage pipeline: a lightweight detector locates the person region, then a larger regression model outputs 33 3D landmarks. The landmark set includes both body and face keypoints with visibility scores. The model runs on CPU in real time, making it ideal for I.R.I.S which has no GPU requirement.' },
+  { name: 'CLAHE', full: 'Contrast Limited Adaptive Histogram Equalisation', color: 'var(--success)',
+    body: "Unlike global histogram equalisation (which can wash out or over-darken images), CLAHE divides the image into small tiles, equalises each tile independently, and then stitches them together with bilinear interpolation. The 'contrast limited' part caps the amplification factor to prevent noise over-enhancement — critical for maintaining face recognition accuracy in dim or uneven lighting." },
+]
+
+export default function About() {
+  const nav = useNavigate()
+  useScrollReveal()
+
+  return (
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: 64 }}>
+
+      {/* ── Page hero ─────────────────────────────────────────────────────── */}
+      <section style={{ padding: '80px 24px 80px', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: 0, left: '40%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle,rgba(99,102,241,0.06),transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 72, alignItems: 'center' }}>
+          <div>
+            <SectionLabel><span className="reveal">About the Project</span></SectionLabel>
+            <SectionHeading>
+              <span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>
+                What is I.R.I.S — and why does it matter?
+              </span>
+            </SectionHeading>
+            <div className="reveal" style={{ animationDelay: '160ms', marginTop: 24, display: 'flex', flexDirection: 'column', gap: 18, fontSize: 16, color: 'var(--text-2)', lineHeight: 1.78 }}>
+              <p>
+                I.R.I.S stands for <span style={{ color: 'var(--text)' }}>Intelligent Real-time Identification & Security System</span>. It is a real-time AI-powered security camera built entirely in Python by two school students — Pratham Joshi and Hariom Bhimani.
+              </p>
+              <p>
+                The motivation was simple: most security cameras are passive. They record footage but cannot interpret it. I.R.I.S changes that by bringing active intelligence to the camera — it watches, understands, and responds, all on a standard laptop with no internet connection.
+              </p>
+              <p>
+                This school project was built without any cloud APIs or pre-trained weapon models. Every detection algorithm was constructed from first principles using OpenCV, MediaPipe, and the LBPH face recognition algorithm.
+              </p>
+            </div>
+            <div className="reveal" style={{ animationDelay: '240ms', marginTop: 28, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+              {['Python 3','OpenCV','MediaPipe','LBPH','Haar Cascade','NumPy','HSV Masking','Ghost Buffer'].map(t => (
+                <Pill key={t}>{t}</Pill>
+              ))}
+            </div>
+          </div>
+          <div className="reveal" style={{ animationDelay: '200ms' }}><CameraHUD /></div>
+        </div>
+      </section>
+
+      {/* ── Problem & Solution ─────────────────────────────────────────────── */}
+      <section style={{ padding: '100px 24px', background: 'linear-gradient(180deg,var(--bg),#0d0d18)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <SectionLabel><span className="reveal">The Problem</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>Why Passive Cameras Aren't Enough</span></SectionHeading>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 18 }}>
+            {[
+              { icon: '😴', title: 'Human operators get tired', desc: 'Security guards monitoring feeds for hours miss incidents due to fatigue. Studies show attention drops sharply after 20 minutes of continuous video monitoring.' },
+              { icon: '⏰', title: 'Reaction time is too slow', desc: 'By the time a guard notices a threat and responds, valuable seconds are lost. I.R.I.S flags danger the instant it appears — in the same frame.' },
+              { icon: '📁', title: 'Footage is reviewed after the fact', desc: 'Traditional CCTV is forensic: you watch it after something bad has happened. I.R.I.S is predictive — it acts before the situation escalates.' },
+              { icon: '💸', title: 'Enterprise AI is expensive', desc: 'Cloud-based AI security platforms cost thousands per month and require internet connectivity. I.R.I.S runs on any laptop with a webcam for free.' },
+            ].map((c, i) => (
+              <div key={i} className="reveal" style={{ animationDelay: `${i * 80}ms` }}>
+                <GlassCard style={{ padding: '28px 24px', height: '100%' }}>
+                  <div style={{ fontSize: 28, marginBottom: 14 }}>{c.icon}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 10 }}>{c.title}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.68 }}>{c.desc}</div>
+                </GlassCard>
+              </div>
+            ))}
+          </div>
+          <div className="reveal" style={{ marginTop: 48, padding: '32px 36px', borderRadius: 18, background: 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(45,212,191,0.05))', border: '1px solid rgba(99,102,241,0.18)', textAlign: 'center' }}>
+            <p style={{ fontSize: 18, color: 'var(--text)', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.6 }}>
+              "I.R.I.S doesn't replace human security — it gives humans superpowers. It never blinks, never gets tired, and never misses a frame."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Three detection pipelines ──────────────────────────────────────── */}
+      <section style={{ padding: '0 24px 100px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <SectionLabel><span className="reveal">Detection Systems</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>Three Pipelines Running Simultaneously</span></SectionHeading>
+            <p className="reveal" style={{ animationDelay: '160ms', color: 'var(--text-2)', marginTop: 14, maxWidth: 560, margin: '14px auto 0' }}>
+              Each detection system operates independently and in parallel. A single frame triggers all three pipelines at once.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+            {PIPELINES.map((p, pi) => (
+              <div key={pi} className="reveal" style={{ animationDelay: `${pi * 80}ms` }}>
+                <div style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div style={{ width: 3, height: 32, borderRadius: 2, background: p.accent }} />
+                  <h3 style={{ fontSize: 20, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>{p.title}</h3>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 12 }}>
+                  {p.steps.map((s, si) => (
+                    <GlassCard key={si} accentColor={p.accent} style={{ padding: '20px 18px' }}>
+                      <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono,monospace', color: p.accent, marginBottom: 8, letterSpacing: '0.1em' }}>STEP {s.step}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>{s.label}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-2)', lineHeight: 1.65 }}>{s.detail}</div>
+                    </GlassCard>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Tech deep-dives ────────────────────────────────────────────────── */}
+      <section style={{ padding: '0 24px 100px', background: 'linear-gradient(180deg,transparent,#0d0d18)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <SectionLabel><span className="reveal">Under the Hood</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>How the Algorithms Actually Work</span></SectionHeading>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {TECH_DEEP.map((t, i) => (
+              <div key={i} className="reveal" style={{ animationDelay: `${i * 80}ms` }}>
+                <GlassCard accentColor={t.color} style={{ padding: '28px 32px', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 28, alignItems: 'start' }}>
+                  <div style={{ flexShrink: 0 }}>
+                    <div style={{ fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: t.color, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6 }}>{t.name}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(139,139,168,0.6)', maxWidth: 180, lineHeight: 1.5 }}>{t.full}</div>
+                  </div>
+                  <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.78, margin: 0 }}>{t.body}</p>
+                </GlassCard>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Accuracy vs lighting chart ─────────────────────────────────────── */}
+      <section style={{ padding: '0 24px 100px' }}>
+        <div style={{ maxWidth: 860, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 36 }}>
+            <SectionLabel><span className="reveal">Real-world Testing</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>Recognition Accuracy vs. Lighting</span></SectionHeading>
+            <p className="reveal" style={{ animationDelay: '160ms', color: 'var(--text-2)', marginTop: 12, fontSize: 14 }}>
+              We tested face recognition across four lighting conditions. Fewer photons = weaker signal — exactly as the photoelectric effect predicts.
+            </p>
+          </div>
+          <div className="reveal" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '32px 24px' }}>
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart
+                data={[
+                  { condition: 'Full light', accuracy: 94, color: '#3aaa80' },
+                  { condition: '75% light', accuracy: 88, color: '#5468d4' },
+                  { condition: '50% light', accuracy: 60, color: '#c8943a' },
+                  { condition: '25% light', accuracy: 32, color: '#c65454' },
+                ]}
+                margin={{ top: 4, right: 16, bottom: 0, left: -10 }}
+              >
+                <XAxis dataKey="condition" tick={{ fill: 'var(--text-2)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: 'var(--text-2)', fontSize: 10, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} unit="%" domain={[0, 100]} />
+                <Tooltip
+                  contentStyle={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: 'var(--text)' }}
+                  formatter={(v: number) => [`${v}%`, 'Accuracy']}
+                  cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                />
+                <Bar dataKey="accuracy" radius={[4, 4, 0, 0]}>
+                  {[{ color: '#3aaa80' }, { color: '#5468d4' }, { color: '#c8943a' }, { color: '#c65454' }].map((e, i) => (
+                    <Cell key={i} fill={e.color} fillOpacity={0.8} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+            <div style={{ marginTop: 18, fontFamily: 'JetBrains Mono,monospace', fontSize: 11, color: 'var(--text-2)', textAlign: 'center', lineHeight: 1.7 }}>
+              At 50% light → accuracy drops from 94% to 60%. CLAHE preprocessing helps but cannot compensate for extreme low-light conditions.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Bottom CTA ─────────────────────────────────────────────────────── */}
+      <section style={{ padding: '0 24px 100px', textAlign: 'center' }}>
+        <div className="reveal" style={{ maxWidth: 600, margin: '0 auto' }}>
+          <h3 style={{ fontSize: 32, fontWeight: 900, color: 'var(--text)', letterSpacing: '-0.03em', marginBottom: 16 }}>Want to see it working?</h3>
+          <p style={{ color: 'var(--text-2)', marginBottom: 32 }}>Watch the demo or read the complete project report.</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 14 }}>
+            <CTAButton onClick={() => nav('/how-it-works')}>See the Full Pipeline →</CTAButton>
+            <CTAButton variant="outline" onClick={() => nav('/animation')}>View Slides</CTAButton>
+            <CTAButton variant="outline" onClick={() => nav('/report')}>Read Report</CTAButton>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  )
+}
