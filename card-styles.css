@@ -37,13 +37,13 @@ function IrisLogo({ onClick }: { onClick: () => void }) {
     <div className="iris-logo-wrap" onClick={onClick} role="button" aria-label="I.R.I.S Home">
       <button className="iris-btn" type="button">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-          <circle cx="12" cy="12" r="3" fill="rgba(99,102,241,0.9)"/>
-          <circle cx="12" cy="12" r="6.5" stroke="rgba(99,102,241,0.5)" strokeWidth="1.2" fill="none"/>
-          <circle cx="12" cy="12" r="10" stroke="rgba(99,102,241,0.22)" strokeWidth="0.8" fill="none"/>
-          <line x1="12" y1="2" x2="12" y2="5.5" stroke="rgba(99,102,241,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
-          <line x1="12" y1="18.5" x2="12" y2="22" stroke="rgba(99,102,241,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
-          <line x1="2" y1="12" x2="5.5" y2="12" stroke="rgba(99,102,241,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
-          <line x1="18.5" y1="12" x2="22" y2="12" stroke="rgba(99,102,241,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
+          <circle cx="12" cy="12" r="3" fill="rgba(201,168,76,0.9)"/>
+          <circle cx="12" cy="12" r="6.5" stroke="rgba(201,168,76,0.5)" strokeWidth="1.2" fill="none"/>
+          <circle cx="12" cy="12" r="10" stroke="rgba(201,168,76,0.22)" strokeWidth="0.8" fill="none"/>
+          <line x1="12" y1="2" x2="12" y2="5.5" stroke="rgba(201,168,76,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
+          <line x1="12" y1="18.5" x2="12" y2="22" stroke="rgba(201,168,76,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
+          <line x1="2" y1="12" x2="5.5" y2="12" stroke="rgba(201,168,76,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
+          <line x1="18.5" y1="12" x2="22" y2="12" stroke="rgba(201,168,76,0.7)" strokeWidth="1.6" strokeLinecap="round"/>
         </svg>
         <span className="iris-btn-txt">I.R.I.S</span>
       </button>
@@ -80,8 +80,8 @@ export function Navbar({ onLogoClick }: { onLogoClick: () => void }) {
             fontFamily: 'JetBrains Mono,monospace',
             fontWeight: 500,
             color: 'var(--accent)',
-            border: '1px solid rgba(99,102,241,0.25)',
-            background: 'rgba(99,102,241,0.08)',
+            border: '1px solid rgba(201,168,76,0.25)',
+            background: 'rgba(201,168,76,0.07)',
           }}
         >
           I.R.I.S · v1.0

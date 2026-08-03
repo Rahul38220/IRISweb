@@ -84,7 +84,7 @@ export default function Contact() {
           <div className="reveal">
             <GlassCard accentColor="var(--accent)" style={{ padding: 32 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 22 }}>
-                <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,var(--accent),var(--accent-3))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 900, fontSize: 18, flexShrink: 0, boxShadow: '0 0 20px rgba(99,102,241,0.28)' }}>PJ</div>
+                <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,var(--accent),var(--accent-3))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#070604', fontWeight: 900, fontSize: 18, flexShrink: 0, boxShadow: '0 0 20px rgba(201,168,76,0.28)' }}>PJ</div>
                 <div>
                   <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>Pratham Joshi</div>
                   <div style={{ fontSize: 12, color: 'var(--text-2)', marginTop: 2 }}>Developer & Researcher</div>
@@ -94,7 +94,7 @@ export default function Contact() {
                 <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
                   Core system architect. Face recognition, weapon detection, and system integration.
                 </div>
-                <div style={{ padding: '10px 14px', borderRadius: 10, background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.18)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: 'var(--accent)' }}>
+                <div style={{ padding: '10px 14px', borderRadius: 10, background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.18)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: 'var(--accent)' }}>
                   prathamdjoshi6@gmail.com
                 </div>
               </div>
@@ -105,7 +105,7 @@ export default function Contact() {
           <div className="reveal" style={{ animationDelay: '100ms' }}>
             <GlassCard accentColor="var(--accent-2)" style={{ padding: 32 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 22 }}>
-                <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,var(--accent-2),var(--accent))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 900, fontSize: 18, flexShrink: 0, boxShadow: '0 0 20px rgba(45,212,191,0.28)' }}>HB</div>
+                <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,var(--accent-2),var(--accent))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#070604', fontWeight: 900, fontSize: 18, flexShrink: 0, boxShadow: '0 0 20px rgba(201,168,76,0.28)' }}>HB</div>
                 <div>
                   <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>Hariom Bhimani</div>
                   <div style={{ fontSize: 12, color: 'var(--text-2)', marginTop: 2 }}>Developer & Researcher</div>
@@ -115,7 +115,7 @@ export default function Contact() {
                 <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
                   Pose estimation, violence detection, alert systems, and HUD design.
                 </div>
-                <div style={{ padding: '10px 14px', borderRadius: 10, background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.18)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: 'var(--accent-2)' }}>
+                <div style={{ padding: '10px 14px', borderRadius: 10, background: 'rgba(232,205,106,0.08)', border: '1px solid rgba(232,205,106,0.18)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: 'var(--accent-2)' }}>
                   haashbhimani3444@gmail.com
                 </div>
               </div>
@@ -202,7 +202,7 @@ export default function Contact() {
       </section>
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <footer style={{ borderTop: '1px solid rgba(99,102,241,0.18)', padding: '48px 24px 32px', background: '#07070c' }}>
+      <footer style={{ borderTop: '1px solid rgba(201,168,76,0.12)', padding: '48px 24px 32px', background: 'var(--bg)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 32, marginBottom: 40 }}>
             <div>

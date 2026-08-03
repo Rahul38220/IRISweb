@@ -72,14 +72,14 @@ const PERF = [
 ]
 
 const TIMING_DATA = [
-  { stage: 'Capture', ms: 3, color: '#5468d4' },
-  { stage: 'CLAHE', ms: 5, color: '#3a9e88' },
-  { stage: 'Haar', ms: 8, color: '#8b63c0' },
-  { stage: 'LBPH', ms: 12, color: '#5468d4' },
-  { stage: 'YOLOv8', ms: 10, color: '#c65454' },
-  { stage: 'MediaPipe', ms: 7, color: '#8b63c0' },
-  { stage: 'Alert', ms: 2, color: '#3aaa80' },
-  { stage: 'Render', ms: 3, color: '#3a9e88' },
+  { stage: 'Capture',   ms: 3,  color: '#c9a84c' },
+  { stage: 'CLAHE',     ms: 5,  color: '#4a9e6a' },
+  { stage: 'Haar',      ms: 8,  color: '#a07830' },
+  { stage: 'LBPH',      ms: 12, color: '#e8cd6a' },
+  { stage: 'YOLOv8',    ms: 10, color: '#b85040' },
+  { stage: 'MediaPipe', ms: 7,  color: '#c9a84c' },
+  { stage: 'Alert',     ms: 2,  color: '#d4a43a' },
+  { stage: 'Render',    ms: 3,  color: '#4a9e6a' },
 ]
 
 function PipelineTimingChart() {
@@ -90,18 +90,18 @@ function PipelineTimingChart() {
         <h3 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>Pipeline Timing Breakdown</h3>
         <p style={{ color: 'var(--text-2)', fontSize: 13, marginTop: 8 }}>Typical milliseconds per stage on an Intel i5 laptop (720p)</p>
       </div>
-      <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '32px 24px' }}>
+      <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 18, padding: '32px 24px' }}>
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={TIMING_DATA} margin={{ top: 4, right: 16, bottom: 0, left: -10 }}>
-            <XAxis dataKey="stage" tick={{ fill: 'var(--text-2)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: 'var(--text-2)', fontSize: 10, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} unit="ms" />
+            <XAxis dataKey="stage" tick={{ fill: '#7a6e50', fontSize: 11, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: '#7a6e50', fontSize: 10, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} unit="ms" />
             <Tooltip
-              contentStyle={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: 'var(--text)' }}
+              contentStyle={{ background: '#0d0b07', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 8, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: '#f0e8cc' }}
               formatter={(v: number) => [`${v}ms`, 'Duration']}
-              cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+              cursor={{ fill: 'rgba(201,168,76,0.05)' }}
             />
             <Bar dataKey="ms" radius={[4, 4, 0, 0]}>
-              {TIMING_DATA.map((entry, i) => <Cell key={i} fill={entry.color} fillOpacity={0.8} />)}
+              {TIMING_DATA.map((entry, i) => <Cell key={i} fill={entry.color} fillOpacity={0.9} />)}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -134,7 +134,7 @@ function LBPHSimulator() {
           Drag the slider to change the recognition threshold. Lower = stricter matching.
         </p>
       </div>
-      <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '36px 32px' }}>
+      <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 18, padding: '36px 32px' }}>
         {/* Slider */}
         <div style={{ marginBottom: 36 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
@@ -156,8 +156,8 @@ function LBPHSimulator() {
           {SAMPLES.map((s) => {
             const identified = s.dist < threshold
             return (
-              <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 16px', borderRadius: 10, background: 'rgba(0,0,0,0.3)', border: `1px solid ${identified ? 'rgba(58,170,128,0.3)' : 'rgba(198,84,84,0.3)'}`, transition: 'border-color 0.3s' }}>
-                <div style={{ width: 36, height: 36, borderRadius: '50%', background: identified ? 'rgba(58,170,128,0.18)' : 'rgba(198,84,84,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
+              <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '12px 16px', borderRadius: 10, background: 'rgba(0,0,0,0.3)', border: `1px solid ${identified ? 'rgba(74,158,106,0.35)' : 'rgba(184,80,64,0.35)'}`, transition: 'border-color 0.3s' }}>
+                <div style={{ width: 36, height: 36, borderRadius: '50%', background: identified ? 'rgba(74,158,106,0.18)' : 'rgba(184,80,64,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
                   {identified ? '🙂' : '❓'}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -178,7 +178,7 @@ function LBPHSimulator() {
             )
           })}
         </div>
-        <div style={{ marginTop: 20, padding: '12px 16px', borderRadius: 10, background: 'rgba(84,104,212,0.06)', border: '1px solid rgba(84,104,212,0.15)', fontFamily: 'JetBrains Mono,monospace', fontSize: 11, color: 'var(--text-2)', lineHeight: 1.6 }}>
+        <div style={{ marginTop: 20, padding: '12px 16px', borderRadius: 10, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', fontFamily: 'JetBrains Mono,monospace', fontSize: 11, color: 'var(--text-2)', lineHeight: 1.6 }}>
           <span style={{ color: 'var(--accent)' }}>HOW IT WORKS:</span> Chi-squared distance between the face's LBP histogram and the training data. If the distance is below the threshold → recognised. Above → unknown.
           Identified: {SAMPLES.filter(s => s.dist < threshold).length} / {SAMPLES.length}
         </div>
@@ -210,7 +210,7 @@ export default function HowItWorks() {
       </section>
 
       {/* ── Visual pipeline ───────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 24px', background: 'linear-gradient(180deg,var(--bg),#0d0d18)' }}>
+      <section style={{ padding: '80px 24px', background: 'var(--surface)' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 12 }}>
             {STEPS.slice(0,4).map((s, i) => (
@@ -224,7 +224,7 @@ export default function HowItWorks() {
             ))}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', margin: '8px 0' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 4 L12 20 M6 14 L12 20 L18 14" stroke="rgba(84,104,212,0.4)" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 4 L12 20 M6 14 L12 20 L18 14" stroke="rgba(201,168,76,0.4)" strokeWidth="1.5" strokeLinecap="round"/></svg>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
             {STEPS.slice(4).map((s, i) => (
@@ -266,24 +266,20 @@ export default function HowItWorks() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
             {STEPS.map((s, i) => (
               <div key={i} className="reveal" style={{ animationDelay: `${i * 60}ms` }}>
-                <GlassCard accentColor={s.accent} style={{ overflow: 'hidden' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 0 }}>
-                    <div style={{ width: 4, background: s.accent, opacity: 0.7 }} />
-                    <div style={{ padding: '28px 30px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                        <span style={{ fontSize: 28 }}>{s.icon}</span>
-                        <div>
-                          <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono,monospace', color: s.accent, letterSpacing: '0.12em', marginBottom: 3 }}>STEP {s.num}</div>
-                          <h3 style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>{s.label}</h3>
-                        </div>
-                      </div>
-                      <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.76, marginBottom: 20 }}>{s.detail}</p>
-                      <div style={{ borderRadius: 10, background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.07)', padding: '16px 18px', overflow: 'auto' }}>
-                        <pre style={{ margin: 0, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: 'var(--text-2)', lineHeight: 1.7, whiteSpace: 'pre' }}>
-                          <code>{s.code}</code>
-                        </pre>
-                      </div>
+                {/* Grid is inside noti-content, not on the card — prevents double-line */}
+                <GlassCard accentColor={s.accent}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+                    <span style={{ fontSize: 28 }}>{s.icon}</span>
+                    <div>
+                      <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono,monospace', color: s.accent, letterSpacing: '0.12em', marginBottom: 3 }}>STEP {s.num}</div>
+                      <h3 style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>{s.label}</h3>
                     </div>
+                  </div>
+                  <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.76, marginBottom: 20 }}>{s.detail}</p>
+                  <div style={{ borderRadius: 10, background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(201,168,76,0.1)', padding: '16px 18px', overflow: 'auto' }}>
+                    <pre style={{ margin: 0, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: '#7a6e50', lineHeight: 1.7, whiteSpace: 'pre' }}>
+                      <code>{s.code}</code>
+                    </pre>
                   </div>
                 </GlassCard>
               </div>
@@ -292,12 +288,15 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* ── Performance stats ──────────────────────────────────────────────── */}
-      <section style={{ padding: '0 24px 100px', background: 'linear-gradient(180deg,transparent,#0d0d18)' }}>
+      {/* ── Performance stats — LIGHT CREAM ────────────────────────────────── */}
+      <section className="light-surface" style={{ padding: '80px 24px 100px', background: 'var(--surface-light)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <SectionLabel><span className="reveal">Performance</span></SectionLabel>
             <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>Real-world Numbers</span></SectionHeading>
+            <p className="reveal" style={{ animationDelay: '160ms', color: 'var(--text-2)', fontSize: 15, marginTop: 12 }}>
+              Measured on an Intel Core i5 laptop, 720p webcam, CPU only — no GPU, no cloud.
+            </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(260px,1fr))', gap: 14 }}>
             {PERF.map((p, i) => (
@@ -305,7 +304,7 @@ export default function HowItWorks() {
                 <GlassCard style={{ padding: '24px 24px' }}>
                   <div style={{ fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: 'var(--text-2)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>{p.label}</div>
                   <div style={{ fontSize: 28, fontWeight: 900, color: 'var(--accent)', letterSpacing: '-0.04em', marginBottom: 6 }}>{p.value}</div>
-                  <div style={{ fontSize: 12, color: 'rgba(139,139,168,0.6)' }}>{p.note}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-2)' }}>{p.note}</div>
                 </GlassCard>
               </div>
             ))}

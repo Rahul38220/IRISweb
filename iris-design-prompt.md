@@ -46,7 +46,6 @@ export function GlassCard({ children, style, accentColor, hover = true }: {
   }
 
   const color = accentColor || 'var(--accent)'
-  // Use color-mix so both hex AND CSS-variable accent colors produce valid gradients
   const gradient = 'linear-gradient(to bottom, var(--color), color-mix(in srgb, var(--color) 50%, transparent), color-mix(in srgb, var(--color) 18%, transparent))'
 
   return (
@@ -76,7 +75,7 @@ export function Pill({ children, color }: { children: React.ReactNode; color?: s
 export function StatCard({ value, label, color }: { value: string; label: string; color?: string }) {
   const c = color || 'var(--accent)'
   return (
-    <GlassCard accentColor={c} style={{}} >
+    <GlassCard accentColor={c} style={{}}>
       <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
         <div style={{ fontSize: 34, fontWeight: 900, color: c, letterSpacing: '-0.04em', marginBottom: 6 }}>{value}</div>
         <div style={{ fontSize: 11, color: 'var(--text-2)', fontFamily: 'JetBrains Mono,monospace', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</div>
@@ -98,10 +97,10 @@ export function ParticleCanvas({ opacity = 1 }: { opacity?: number }) {
 
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
     const init = () => {
-      pts = Array.from({ length: 75 }, () => ({
+      pts = Array.from({ length: 60 }, () => ({
         x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.24, vy: (Math.random() - 0.5) * 0.24,
-        radius: Math.random() * 1.2 + 0.35, opacity: Math.random() * 0.35 + 0.1,
+        vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+        radius: Math.random() * 1.0 + 0.3, opacity: Math.random() * 0.25 + 0.06,
       }))
     }
     const draw = () => {
@@ -112,12 +111,12 @@ export function ParticleCanvas({ opacity = 1 }: { opacity?: number }) {
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1
         ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(238,238,248,${p.opacity})`; ctx.fill()
+        ctx.fillStyle = `rgba(201,168,76,${p.opacity})`; ctx.fill()
         for (let j = i + 1; j < pts.length; j++) {
           const q = pts[j]; const d = Math.hypot(p.x - q.x, p.y - q.y)
-          if (d < 95) {
+          if (d < 100) {
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y)
-            ctx.strokeStyle = `rgba(84,104,212,${0.12 * (1 - d / 95)})`
+            ctx.strokeStyle = `rgba(201,168,76,${0.08 * (1 - d / 100)})`
             ctx.lineWidth = 0.5; ctx.stroke()
           }
         }
@@ -139,20 +138,20 @@ export function CTAButton({ children, onClick, variant = 'primary', style }: {
   variant?: 'primary' | 'outline'
   style?: React.CSSProperties
 }) {
-  const base: React.CSSProperties = { padding: '12px 26px', borderRadius: 999, fontWeight: 600, fontSize: 14, cursor: 'pointer', transition: 'transform 0.2s,box-shadow 0.2s,background 0.2s', letterSpacing: '-0.01em', ...style }
+  const base: React.CSSProperties = { padding: '12px 28px', borderRadius: 999, fontWeight: 700, fontSize: 14, cursor: 'pointer', transition: 'transform 0.2s,box-shadow 0.2s,background 0.2s', letterSpacing: '0.02em', fontFamily: 'Outfit,sans-serif', ...style }
   if (variant === 'primary') {
     return (
-      <button onClick={onClick} style={{ ...base, color: 'white', border: 'none', background: 'linear-gradient(135deg,var(--accent),var(--accent-3))', boxShadow: '0 0 22px rgba(99,102,241,0.35)' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.04)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 36px rgba(99,102,241,0.6)' }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 22px rgba(99,102,241,0.35)' }}>
+      <button onClick={onClick} style={{ ...base, color: '#070604', border: 'none', background: 'linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%)', boxShadow: '0 0 22px rgba(201,168,76,0.28)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.04)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 40px rgba(201,168,76,0.5)' }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 22px rgba(201,168,76,0.28)' }}>
         {children}
       </button>
     )
   }
   return (
-    <button onClick={onClick} style={{ ...base, color: 'var(--text)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)' }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.25)' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)' }}>
+    <button onClick={onClick} style={{ ...base, color: 'var(--text)', background: 'rgba(201,168,76,0.05)', border: '1px solid rgba(201,168,76,0.22)' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.4)' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.05)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.22)' }}>
       {children}
     </button>
   )

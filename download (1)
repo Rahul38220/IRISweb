@@ -19,10 +19,10 @@ function CameraHUD() {
         <span style={{ color: 'var(--text-2)' }}>CAM_01 · 1080p · 30fps</span>
         <span style={{ color: 'var(--success)' }}>● SYS ARMED</span>
       </div>
-      <div style={{ position: 'relative', aspectRatio: '16/9', background: 'linear-gradient(135deg,#070e1e,#050a14)', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.06, backgroundImage: 'linear-gradient(rgba(99,102,241,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.8) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div style={{ position: 'relative', aspectRatio: '16/9', background: 'linear-gradient(135deg,#0a0800,#050400)', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.06, backgroundImage: 'linear-gradient(rgba(201,168,76,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.8) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
         {/* HUD top */}
-        <div style={{ position: 'absolute', top: 10, left: 12, right: 12, display: 'flex', justifyContent: 'space-between', ...mono, fontSize: 9, color: 'rgba(45,212,191,0.6)' }}>
+        <div style={{ position: 'absolute', top: 10, left: 12, right: 12, display: 'flex', justifyContent: 'space-between', ...mono, fontSize: 9, color: 'rgba(201,168,76,0.6)' }}>
           <span>IRIS-CAM · ACTIVE</span><span>POSE: TRACKING · 33pts</span><span>{time}</span>
         </div>
         {/* Face box 1 */}
@@ -37,7 +37,7 @@ function CameraHUD() {
         </div>
         {/* Face box 2 */}
         <div style={{ position: 'absolute', top: '20%', left: '56%', width: '22%', height: '40%' }}>
-          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(45,212,191,0.55)', borderRadius: 2 }} />
+          <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(201,168,76,0.45)', borderRadius: 2 }} />
           <div style={{ position: 'absolute', bottom: -18, left: 0, right: 0, textAlign: 'center' }}>
             <span style={{ fontSize: 9, ...mono, color: 'var(--accent-2)', background: 'rgba(0,0,0,0.75)', padding: '1px 5px', borderRadius: 3 }}>Hariom · 91.8%</span>
           </div>
@@ -110,8 +110,10 @@ export default function About() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: 64 }}>
 
       {/* ── Page hero ─────────────────────────────────────────────────────── */}
-      <section style={{ padding: '80px 24px 80px', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: 0, left: '40%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle,rgba(99,102,241,0.06),transparent 70%)', pointerEvents: 'none' }} />
+      <section style={{ padding: '80px 24px 80px', borderBottom: '1px solid rgba(201,168,76,0.08)', position: 'relative', overflow: 'hidden' }}>
+        {/* Background image */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1741356474365-5f0041f89eaa?w=1600&h=700&fit=crop&auto=format)', backgroundSize: 'cover', backgroundPosition: 'center 40%', opacity: 0.05 }} />
+        <div style={{ position: 'absolute', top: 0, left: '40%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle,rgba(201,168,76,0.06),transparent 70%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 72, alignItems: 'center' }}>
           <div>
             <SectionLabel><span className="reveal">About the Project</span></SectionLabel>
@@ -141,8 +143,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── Problem & Solution ─────────────────────────────────────────────── */}
-      <section style={{ padding: '100px 24px', background: 'linear-gradient(180deg,var(--bg),#0d0d18)' }}>
+      {/* ── Problem & Solution — LIGHT CREAM ──────────────────────────────── */}
+      <section className="light-surface" style={{ padding: '100px 24px', background: 'var(--surface-light)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <SectionLabel><span className="reveal">The Problem</span></SectionLabel>
@@ -164,7 +166,7 @@ export default function About() {
               </div>
             ))}
           </div>
-          <div className="reveal" style={{ marginTop: 48, padding: '32px 36px', borderRadius: 18, background: 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(45,212,191,0.05))', border: '1px solid rgba(99,102,241,0.18)', textAlign: 'center' }}>
+          <div className="reveal" style={{ marginTop: 48, padding: '32px 36px', borderRadius: 18, background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(160,120,48,0.3)', textAlign: 'center' }}>
             <p style={{ fontSize: 18, color: 'var(--text)', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.6 }}>
               "I.R.I.S doesn't replace human security — it gives humans superpowers. It never blinks, never gets tired, and never misses a frame."
             </p>
@@ -173,7 +175,7 @@ export default function About() {
       </section>
 
       {/* ── Three detection pipelines ──────────────────────────────────────── */}
-      <section style={{ padding: '0 24px 100px' }}>
+      <section style={{ padding: '0 24px 100px', background: 'var(--surface)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <SectionLabel><span className="reveal">Detection Systems</span></SectionLabel>
@@ -205,7 +207,7 @@ export default function About() {
       </section>
 
       {/* ── Tech deep-dives ────────────────────────────────────────────────── */}
-      <section style={{ padding: '0 24px 100px', background: 'linear-gradient(180deg,transparent,#0d0d18)' }}>
+      <section style={{ padding: '0 24px 100px', background: 'var(--bg)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <SectionLabel><span className="reveal">Under the Hood</span></SectionLabel>
@@ -214,12 +216,15 @@ export default function About() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             {TECH_DEEP.map((t, i) => (
               <div key={i} className="reveal" style={{ animationDelay: `${i * 80}ms` }}>
-                <GlassCard accentColor={t.color} style={{ padding: '28px 32px', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 28, alignItems: 'start' }}>
-                  <div style={{ flexShrink: 0 }}>
-                    <div style={{ fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: t.color, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6 }}>{t.name}</div>
-                    <div style={{ fontSize: 12, color: 'rgba(139,139,168,0.6)', maxWidth: 180, lineHeight: 1.5 }}>{t.full}</div>
+                {/* Grid goes INSIDE the card content, not on the card itself */}
+                <GlassCard accentColor={t.color}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'minmax(140px,190px) 1fr', gap: 28, alignItems: 'start' }}>
+                    <div>
+                      <div style={{ fontSize: 11, fontFamily: 'JetBrains Mono,monospace', color: t.color, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 8 }}>{t.name}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-2)', lineHeight: 1.55 }}>{t.full}</div>
+                    </div>
+                    <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.78, margin: 0 }}>{t.body}</p>
                   </div>
-                  <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.78, margin: 0 }}>{t.body}</p>
                 </GlassCard>
               </div>
             ))}
@@ -237,27 +242,27 @@ export default function About() {
               We tested face recognition across four lighting conditions. Fewer photons = weaker signal — exactly as the photoelectric effect predicts.
             </p>
           </div>
-          <div className="reveal" style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '32px 24px' }}>
+          <div className="reveal" style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: 18, padding: '32px 24px' }}>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart
                 data={[
-                  { condition: 'Full light', accuracy: 94, color: '#3aaa80' },
-                  { condition: '75% light', accuracy: 88, color: '#5468d4' },
-                  { condition: '50% light', accuracy: 60, color: '#c8943a' },
-                  { condition: '25% light', accuracy: 32, color: '#c65454' },
+                  { condition: 'Full light', accuracy: 94 },
+                  { condition: '75% light', accuracy: 88 },
+                  { condition: '50% light', accuracy: 60 },
+                  { condition: '25% light', accuracy: 32 },
                 ]}
                 margin={{ top: 4, right: 16, bottom: 0, left: -10 }}
               >
-                <XAxis dataKey="condition" tick={{ fill: 'var(--text-2)', fontSize: 11, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: 'var(--text-2)', fontSize: 10, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} unit="%" domain={[0, 100]} />
+                <XAxis dataKey="condition" tick={{ fill: '#7a6e50', fontSize: 11, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: '#7a6e50', fontSize: 10, fontFamily: 'JetBrains Mono,monospace' }} axisLine={false} tickLine={false} unit="%" domain={[0, 100]} />
                 <Tooltip
-                  contentStyle={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: 'var(--text)' }}
+                  contentStyle={{ background: '#0d0b07', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 8, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: '#f0e8cc' }}
                   formatter={(v: number) => [`${v}%`, 'Accuracy']}
-                  cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                  cursor={{ fill: 'rgba(201,168,76,0.05)' }}
                 />
                 <Bar dataKey="accuracy" radius={[4, 4, 0, 0]}>
-                  {[{ color: '#3aaa80' }, { color: '#5468d4' }, { color: '#c8943a' }, { color: '#c65454' }].map((e, i) => (
-                    <Cell key={i} fill={e.color} fillOpacity={0.8} />
+                  {[{ color: '#4a9e6a' }, { color: '#c9a84c' }, { color: '#d4a43a' }, { color: '#b85040' }].map((e, i) => (
+                    <Cell key={i} fill={e.color} fillOpacity={0.9} />
                   ))}
                 </Bar>
               </BarChart>
