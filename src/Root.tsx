@@ -15,7 +15,7 @@ function FaceScanOverlay({ onDone }: { onDone: () => void }) {
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
         <div style={{ padding: '26px 40px', borderRadius: 18, background: 'rgba(0,0,0,0.88)', border: '1px solid rgba(52,211,153,0.4)', backdropFilter: 'blur(24px)', boxShadow: '0 0 60px rgba(52,211,153,0.2)' }}>
           <div style={{ fontFamily: 'JetBrains Mono,monospace', color: 'var(--success)', fontSize: 12, marginBottom: 8, letterSpacing: '0.1em' }}>✅ I.R.I.S SCAN COMPLETE</div>
-          <div style={{ color: 'var(--text)', fontWeight: 900, fontSize: 22, letterSpacing: '-0.02em' }}>[Your Name Here]</div>
+          <div style={{ color: 'var(--text)', fontWeight: 900, fontSize: 22, letterSpacing: '-0.02em' }}>Letssss gooooooo!!!!</div>
           <div style={{ fontFamily: 'JetBrains Mono,monospace', color: 'var(--text-2)', fontSize: 11, marginTop: 8 }}>Threat Level: Zero 😎</div>
         </div>
       </div>
