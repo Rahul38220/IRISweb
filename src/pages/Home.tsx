@@ -1,0 +1,332 @@
+import { useNavigate } from 'react-router'
+import { useScrollReveal, ParticleCanvas, GlassCard, SectionLabel, SectionHeading, CTAButton } from '../components/shared'
+import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip } from 'recharts'
+
+function ScanLine() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+      <div className="scan-line" />
+    </div>
+  )
+}
+
+const QUICK_FACTS = [
+  { icon: '👤', title: 'Face Recognition', desc: 'LBPH algorithm identifies registered individuals in real time with name overlay.', color: 'var(--accent)' },
+  { icon: '🔪', title: 'Weapon Detection', desc: 'Multi-frame ghost buffer eliminates false positives from bright surfaces and clothing.', color: 'var(--danger)' },
+  { icon: '🦴', title: 'Violence Detection', desc: 'MediaPipe 33-point skeleton tracks punches, kicks, and falls across frames.', color: 'var(--accent-3)' },
+  { icon: '📸', title: 'Auto Snapshots', desc: 'Every confirmed alert is timestamped and saved automatically for evidence.', color: 'var(--accent-2)' },
+  { icon: '⚡', title: 'Real-time Speed', desc: 'Entire pipeline completes in under 50ms per frame — faster than human reaction.', color: 'var(--warn)' },
+  { icon: '🖥️', title: 'Zero Cloud', desc: 'Runs entirely on a standard laptop webcam. No APIs, no subscriptions, no latency.', color: 'var(--success)' },
+]
+
+const TIMELINE = [
+  { date: 'Week 1–2', label: 'Research & Setup', desc: 'Studied OpenCV, MediaPipe architecture, and LBPH theory. Built development environment and installed all dependencies.' },
+  { date: 'Week 3–4', label: 'Face Recognition', desc: 'Implemented Haar Cascade face detection with 2-frame confirmation. Trained LBPH recognizer on registered face dataset.' },
+  { date: 'Week 5–6', label: 'Weapon Detection', desc: 'Developed contour shape analysis, metallic colour mask, and ghost buffer system for false-positive elimination.' },
+  { date: 'Week 7–8', label: 'Violence Detection', desc: 'Integrated MediaPipe Pose for 33-point skeleton tracking. Built velocity and angle analysis for punch/kick/choke detection.' },
+  { date: 'Week 9–10', label: 'Integration & Testing', desc: 'Merged all three systems into a single real-time pipeline. Tuned thresholds, tested edge cases, optimised frame rate.' },
+  { date: 'Week 11–12', label: 'Report & Presentation', desc: 'Documented methodology, compiled results, prepared presentation slides and project website.' },
+]
+
+const RADAR_DATA = [
+  { subject: 'Face Accuracy', A: 94 },
+  { subject: 'Weapon Precision', A: 91 },
+  { subject: 'Violence Detection', A: 87 },
+  { subject: 'Real-time Speed', A: 96 },
+  { subject: 'Low-light Perf.', A: 60 },
+  { subject: 'False Positive Filter', A: 98 },
+]
+
+// Replace YOUR_YOUTUBE_VIDEO_ID with the actual YouTube video ID
+const YOUTUBE_VIDEO_ID = 'G7zi5pxafFA'
+
+export default function Home() {
+  const nav = useNavigate()
+  useScrollReveal()
+
+  return (
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'Outfit,sans-serif' }}>
+
+      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        {/* Background image */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(https://images.unsplash.com/photo-1778757835975-13f0332ee505?w=1600&h=900&fit=crop&auto=format)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          opacity: 0.07,
+        }} />
+        {/* Gold radial glow */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 900, height: 900, borderRadius: '50%', background: 'radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%)', pointerEvents: 'none' }} />
+        <ParticleCanvas opacity={0.6} />
+        <ScanLine />
+        <div className="noise-overlay" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+
+        <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '100px 24px 80px', maxWidth: 960, margin: '0 auto' }}>
+          <div className="reveal" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 18px', borderRadius: 999, border: '1px solid rgba(201,168,76,0.2)', background: 'rgba(201,168,76,0.06)', fontSize: 11, color: 'var(--text-2)', fontFamily: 'JetBrains Mono,monospace', marginBottom: 36 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+            AI-Powered · Real-time · No Cloud APIs · Built with Python
+          </div>
+
+          <h1 className="reveal" style={{ animationDelay: '80ms', fontSize: 'clamp(52px,9vw,100px)', fontWeight: 900, color: 'var(--text)', lineHeight: 0.9, letterSpacing: '-0.04em', marginBottom: 28 }}>
+            The Camera<br />
+            <span style={{ background: 'linear-gradient(135deg,var(--accent-3) 0%,var(--accent) 45%,var(--accent-2) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              That Thinks.
+            </span>
+          </h1>
+
+          <p className="reveal" style={{ animationDelay: '160ms', fontSize: 19, color: 'var(--text-2)', maxWidth: 600, margin: '0 auto 44px', lineHeight: 1.72 }}>
+            I.R.I.S is an AI-powered security system that identifies faces, detects weapons, and spots violent behaviour — all in real time from a single webcam.
+          </p>
+
+          <div className="reveal" style={{ animationDelay: '240ms', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 14, marginBottom: 48 }}>
+            <CTAButton onClick={() => nav('/how-it-works')}>See How It Works →</CTAButton>
+            <CTAButton variant="outline" onClick={() => nav('/animation')}>View Slides ↗</CTAButton>
+            <CTAButton variant="outline" onClick={() => nav('/about')}>Learn More</CTAButton>
+          </div>
+
+          <p className="reveal" style={{ animationDelay: '320ms', fontSize: 12, color: 'rgba(122,110,80,0.5)', fontFamily: 'JetBrains Mono,monospace' }}>
+            Created by Pratham Joshi & Hariom Bhimani · Guided by Priti Dave Ma'am, Nilesh Ladani Sir & Sanjay Sir
+          </p>
+
+          <div style={{ marginTop: 60, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, animation: 'bounce 2s infinite' }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.3)" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.15)" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stats bar ──────────────────────────────────────────────────────── */}
+      <section className="section-card" style={{ padding: '0 24px 0', background: 'var(--bg)', zIndex: 2 }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', borderTop: '1px solid rgba(201,168,76,0.1)', borderBottom: '1px solid rgba(201,168,76,0.1)', padding: '40px 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 20 }}>
+          {[
+            { v: '33', l: 'Body Keypoints', c: 'var(--accent)' },
+            { v: '<50ms', l: 'Frame Latency', c: 'var(--accent-2)' },
+            { v: '3×', l: 'Frame Confirmation', c: 'var(--accent-3)' },
+            { v: '0', l: 'Cloud Dependencies', c: 'var(--success)' },
+            { v: '100%', l: 'Local Processing', c: 'var(--accent)' },
+          ].map(({ v, l, c }) => (
+            <div key={l} className="reveal" style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 32, fontWeight: 900, color: c, letterSpacing: '-0.04em', marginBottom: 4 }}>{v}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-2)', fontFamily: 'JetBrains Mono,monospace', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── YouTube Video section ──────────────────────────────────────────── */}
+      <section className="section-card" style={{ padding: '100px 24px', background: 'var(--surface)', zIndex: 3 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <SectionLabel><span className="reveal">Project Video</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>Watch I.R.I.S in Action</span></SectionHeading>
+            <p className="reveal" style={{ animationDelay: '160ms', color: 'var(--text-2)', fontSize: 16, maxWidth: 540, margin: '16px auto 0', lineHeight: 1.7 }}>
+              A live demonstration of face recognition, weapon detection, and violence detection running simultaneously.
+            </p>
+          </div>
+          <div className="reveal" style={{ animationDelay: '200ms', position: 'relative', borderRadius: 18, overflow: 'hidden', border: '1px solid rgba(201,168,76,0.2)', boxShadow: '0 0 60px rgba(201,168,76,0.08)', aspectRatio: '16/9', background: '#07060400' }}>
+            {/* Gold corner accents */}
+            {['tl','tr','bl','br'].map(pos => (
+              <div key={pos} style={{ position: 'absolute', width: 20, height: 20, zIndex: 3, pointerEvents: 'none',
+                top: pos.startsWith('t') ? 12 : undefined, bottom: pos.startsWith('b') ? 12 : undefined,
+                left: pos.endsWith('l') ? 12 : undefined, right: pos.endsWith('r') ? 12 : undefined,
+                borderTop: pos.startsWith('t') ? '1.5px solid var(--accent)' : undefined,
+                borderBottom: pos.startsWith('b') ? '1.5px solid var(--accent)' : undefined,
+                borderLeft: pos.endsWith('l') ? '1.5px solid var(--accent)' : undefined,
+                borderRight: pos.endsWith('r') ? '1.5px solid var(--accent)' : undefined,
+              }} />
+            ))}
+            {YOUTUBE_VIDEO_ID === 'YOUR_YOUTUBE_VIDEO_ID' ? (
+              /* Placeholder shown until real video ID is set */
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,rgba(20,17,8,0.98),rgba(7,6,4,0.98))', gap: 16 }}>
+                <div style={{ width: 64, height: 64, borderRadius: '50%', border: '2px solid rgba(201,168,76,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,168,76,0.06)' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 11, color: 'var(--accent)', letterSpacing: '0.15em', marginBottom: 8 }}>VIDEO PLACEHOLDER</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-2)', maxWidth: 340, lineHeight: 1.6 }}>
+                    Replace <code style={{ fontFamily: 'JetBrains Mono,monospace', color: 'var(--accent-2)', background: 'rgba(201,168,76,0.08)', padding: '2px 6px', borderRadius: 4 }}>YOUR_YOUTUBE_VIDEO_ID</code> in Home.tsx with your actual YouTube video ID.
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <iframe
+                width="100%" height="100%"
+                src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1&color=white`}
+                title="I.R.I.S — AI Security System"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: 'absolute', inset: 0 }}
+              />
+            )}
+          </div>
+          <div className="reveal" style={{ textAlign: 'center', marginTop: 20, fontFamily: 'JetBrains Mono,monospace', fontSize: 11, color: 'rgba(122,110,80,0.45)' }}>
+            S.N. KANSAGRA SCHOOL, RAJKOT &nbsp;·&nbsp; PHYSICS PROJECT 2026–27
+          </div>
+        </div>
+      </section>
+
+      {/* ── What is I.R.I.S ────────────────────────────────────────────────── */}
+      <section className="section-card" style={{ padding: '120px 24px', background: 'var(--bg)', zIndex: 4 }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 72, alignItems: 'center' }}>
+            <div>
+              <SectionLabel><span className="reveal">About the Project</span></SectionLabel>
+              <SectionHeading>
+                <span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>
+                  Intelligent Real-time Identification & Security
+                </span>
+              </SectionHeading>
+              <div className="reveal" style={{ animationDelay: '160ms', marginTop: 24, fontSize: 16, color: 'var(--text-2)', lineHeight: 1.78 }}>
+                <p style={{ marginBottom: 18 }}>
+                  I.R.I.S is a school project built entirely from scratch using Python, OpenCV, and MediaPipe. There are no pre-trained weapon-detection models and no cloud subscriptions — just pure computer vision logic running on a standard laptop.
+                </p>
+                <p>
+                  The system watches a live webcam feed and does three things simultaneously: it recognises registered faces, scans for dangerous objects, and monitors for violent body movements. All three pipelines run together, every frame, in real time.
+                </p>
+              </div>
+              <div className="reveal" style={{ animationDelay: '240ms', marginTop: 28, display: 'flex', gap: 12 }}>
+                <CTAButton onClick={() => nav('/about')}>Full Details →</CTAButton>
+                <CTAButton variant="outline" onClick={() => nav('/team')}>Meet the Team</CTAButton>
+              </div>
+            </div>
+
+            {/* Tech stack + accent image */}
+            <div className="reveal" style={{ animationDelay: '160ms' }}>
+              {/* Decorative image strip */}
+              <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 16, height: 160, position: 'relative' }}>
+                <img src="https://images.unsplash.com/photo-1759956445479-c436a50d9e59?w=800&h=320&fit=crop&auto=format" alt="Abstract golden light streaks" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.55 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg,rgba(7,6,4,0.6),rgba(201,168,76,0.06))' }} />
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontFamily: 'JetBrains Mono,monospace', fontSize: 10, color: 'var(--accent)', letterSpacing: '0.2em' }}>BUILT FROM FIRST PRINCIPLES</div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {[
+                  { name: 'Python 3', desc: 'Core runtime', color: 'var(--accent)', icon: '🐍' },
+                  { name: 'OpenCV', desc: 'Computer vision', color: 'var(--accent-2)', icon: '👁' },
+                  { name: 'MediaPipe', desc: 'Pose estimation', color: 'var(--accent-3)', icon: '🦴' },
+                  { name: 'LBPH', desc: 'Face recognition', color: 'var(--success)', icon: '🪪' },
+                  { name: 'NumPy', desc: 'Matrix processing', color: 'var(--warn)', icon: '📐' },
+                  { name: 'Haar Cascade', desc: 'Face detection', color: 'var(--danger)', icon: '🔍' },
+                ].map((t) => (
+                  <GlassCard key={t.name} accentColor={t.color} style={{ padding: '16px 16px' }}>
+                    <div style={{ fontSize: 20, marginBottom: 7 }}>{t.icon}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{t.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-2)', fontFamily: 'JetBrains Mono,monospace' }}>{t.desc}</div>
+                  </GlassCard>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Six quick-fact cards — LIGHT CREAM ───────────────────────────────── */}
+      <section className="section-card light-surface" style={{ padding: '0 24px 100px', background: '#f8f1e2', zIndex: 5 }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56, paddingTop: 80 }}>
+            <SectionLabel><span className="reveal">Core Capabilities</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>Everything I.R.I.S Can Do</span></SectionHeading>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 16 }}>
+            {QUICK_FACTS.map((f, i) => (
+              <div key={i} className="reveal" style={{ animationDelay: `${i * 70}ms` }}>
+                <GlassCard accentColor={f.color} style={{ padding: '28px 26px', height: '100%' }}>
+                  <div style={{ fontSize: 28, marginBottom: 14 }}>{f.icon}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', marginBottom: 10, letterSpacing: '-0.01em' }}>{f.title}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.68 }}>{f.desc}</div>
+                </GlassCard>
+              </div>
+            ))}
+          </div>
+
+          {/* Radar chart */}
+          <div className="reveal" style={{ maxWidth: 700, margin: '56px auto 0' }}>
+            <div style={{ textAlign: 'center', marginBottom: 24 }}>
+              <SectionLabel>System Performance</SectionLabel>
+              <h3 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>Capabilities at a Glance</h3>
+              <p style={{ color: 'var(--text-2)', fontSize: 13, marginTop: 8 }}>Scores out of 100 from our 120+ test scenarios</p>
+            </div>
+            <div style={{ background: 'rgba(160,120,48,0.07)', border: '1px solid rgba(160,120,48,0.2)', borderRadius: 18, padding: '32px 24px' }}>
+              <ResponsiveContainer width="100%" height={300}>
+                <RadarChart data={RADAR_DATA} margin={{ top: 10, right: 30, bottom: 10, left: 30 }}>
+                  <PolarGrid stroke="rgba(160,120,48,0.2)" />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#6b5830', fontSize: 11, fontFamily: 'JetBrains Mono,monospace' }} />
+                  <Radar name="I.R.I.S" dataKey="A" stroke="#c9a84c" fill="#c9a84c" fillOpacity={0.15} strokeWidth={1.5} dot={{ fill: '#c9a84c', r: 3 }} />
+                  <Tooltip
+                    contentStyle={{ background: '#1c1508', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 8, fontSize: 12, fontFamily: 'JetBrains Mono,monospace', color: '#f0e8cc' }}
+                    formatter={(v: number) => [`${v}%`, 'Score']}
+                  />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Project timeline ───────────────────────────────────────────────── */}
+      <section className="section-card" style={{ padding: '100px 24px 100px', background: 'var(--bg)', zIndex: 6 }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <SectionLabel><span className="reveal">Development Journey</span></SectionLabel>
+            <SectionHeading><span className="reveal" style={{ display: 'block', animationDelay: '80ms' }}>12 Weeks of Building</span></SectionHeading>
+            <p className="reveal" style={{ animationDelay: '160ms', color: 'var(--text-2)', marginTop: 14, maxWidth: 520, margin: '14px auto 0' }}>
+              From first line of code to a fully working AI security system.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0, position: 'relative' }}>
+            {TIMELINE.map((t, i) => (
+              <div key={i} className="reveal" style={{ animationDelay: `${i * 100}ms`, display: 'flex', gap: 24, paddingBottom: 24 }}>
+                <div style={{ flexShrink: 0, width: 110, paddingTop: 20, textAlign: 'right' }}>
+                  <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono,monospace', color: 'var(--accent)', letterSpacing: '0.08em' }}>{t.date}</div>
+                </div>
+                <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ width: 9, height: 9, borderRadius: '50%', background: 'var(--accent)', marginTop: 23, boxShadow: '0 0 10px rgba(201,168,76,0.5)', flexShrink: 0 }} />
+                  {i < TIMELINE.length - 1 && <div style={{ width: 1, flexGrow: 1, background: 'rgba(201,168,76,0.15)', minHeight: 20 }} />}
+                </div>
+                <GlassCard style={{ flexGrow: 1, padding: '16px 20px', marginBottom: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 5 }}>{t.label}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.65 }}>{t.desc}</div>
+                </GlassCard>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA band ───────────────────────────────────────────────────────── */}
+      <section className="section-card" style={{ padding: '80px 24px 120px', background: 'var(--bg)', zIndex: 7 }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <div className="reveal" style={{ position: 'relative', borderRadius: 22, border: '1px solid rgba(201,168,76,0.2)', background: 'linear-gradient(135deg,rgba(20,17,8,0.95),rgba(11,10,6,0.95))', padding: '72px 48px', textAlign: 'center', overflow: 'hidden' }}>
+            {/* Gold corner brackets */}
+            {['tl','tr','bl','br'].map(pos => (
+              <div key={pos} style={{ position: 'absolute', width: 28, height: 28, pointerEvents: 'none',
+                top: pos.startsWith('t') ? 18 : undefined, bottom: pos.startsWith('b') ? 18 : undefined,
+                left: pos.endsWith('l') ? 18 : undefined, right: pos.endsWith('r') ? 18 : undefined,
+                borderTop: pos.startsWith('t') ? '1.5px solid rgba(201,168,76,0.45)' : undefined,
+                borderBottom: pos.startsWith('b') ? '1.5px solid rgba(201,168,76,0.45)' : undefined,
+                borderLeft: pos.endsWith('l') ? '1.5px solid rgba(201,168,76,0.45)' : undefined,
+                borderRight: pos.endsWith('r') ? '1.5px solid rgba(201,168,76,0.45)' : undefined,
+              }} />
+            ))}
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 600, height: 300, background: 'radial-gradient(ellipse at center,rgba(201,168,76,0.06),transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'relative' }}>
+              <h3 style={{ fontSize: 'clamp(24px,3.5vw,42px)', fontWeight: 900, color: 'var(--text)', letterSpacing: '-0.03em', marginBottom: 16 }}>
+                Ready to explore I.R.I.S in depth?
+              </h3>
+              <p style={{ color: 'var(--text-2)', fontSize: 16, marginBottom: 36, maxWidth: 480, margin: '0 auto 36px' }}>
+                Dive into the technology, meet the team, read the report, or view the presentation slides.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 14 }}>
+                <CTAButton onClick={() => nav('/about')}>About the Project →</CTAButton>
+                <CTAButton variant="outline" onClick={() => nav('/animation')}>View Slides</CTAButton>
+                <CTAButton variant="outline" onClick={() => nav('/report')}>Download Report</CTAButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  )
+}
